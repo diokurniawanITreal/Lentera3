@@ -86,6 +86,9 @@ class FakeAi implements AiService {
 
   @override
   void cancel() => cancelCount++;
+
+  @override
+  bool get isLoading => pending != null && !pending!.isCompleted;
 }
 
 class Harness {

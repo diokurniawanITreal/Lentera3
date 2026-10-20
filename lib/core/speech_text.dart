@@ -19,7 +19,8 @@ class SpeechText {
     t = t.replaceAll(_spaces, ' ');
     t = t.replaceAll(RegExp(r' *\n *'), '\n');
     t = t.replaceAll(_blankLines, '\n\n');
-    t = t.replaceAll(RegExp(r'\s+([.,;:!?])'), r'$1');
+    t = t.replaceAllMapped(
+        RegExp(r'\s+([,;:!?]|(?<!\.)\.(?!\.))'), (m) => m[1]!);
     return t.trim();
   }
 

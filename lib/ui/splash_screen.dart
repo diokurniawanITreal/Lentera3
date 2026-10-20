@@ -49,11 +49,9 @@ class _SplashScreenState extends State<SplashScreen> {
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 311),
                     child: Text(
-                      'Layanan Informasi Harian Ramah Akses bagi Tunanetra',
+                      'Layanan Informasi Harian Ramah Akses bagi Penyandang Tunanetra',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
+                      style: Theme.of(context).textTheme.bodyMedium
                           ?.copyWith(color: AppColors.textSecondary),
                     ),
                   ),

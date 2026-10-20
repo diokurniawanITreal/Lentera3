@@ -1,6 +1,6 @@
 # LENTERA — Layanan Informasi Harian Ramah Akses
 
-Aplikasi informasi harian berbasis suara LENTERA1234 (_voice-first_, _accessibility-first_) untuk penyandang tunanetra.
+Aplikasi informasi harian berbasis suara Dio Kurniawan Dan Jose Joshua Hutagaol (_voice-first_, _accessibility-first_) untuk penyandang tunanetra.
 Flutter/Dart. Desain: Figma "Lentera-PBL3 - Manual" (nilai warna/font/ukuran dibaca langsung dari Figma).
 
 ## Menjalankan

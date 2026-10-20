@@ -45,8 +45,14 @@ class Msg {
       'Izin lokasi ditolak. Aktifkan izin lokasi di pengaturan aplikasi untuk memakai fitur ini.';
   static const locServiceOff =
       'Layanan lokasi di perangkat sedang mati. Nyalakan lokasi, lalu coba lagi.';
+  static const locTimeout =
+      'Waktu habis saat mencari lokasi Anda. Pastikan GPS aktif, lalu coba lagi.';
+  static const locNetworkError =
+      'Tidak dapat menghubungi layanan lokasi. Periksa koneksi internet Anda.';
   static const locFailed =
       'Lokasi Anda belum dapat ditentukan saat ini. Silakan coba lagi.';
   static const weatherFailed =
       'Maaf, informasi cuaca belum dapat diambil saat ini. Silakan coba lagi.';
+  static const weatherTimeout =
+      'Waktu habis saat mengambil data cuaca. Silakan coba lagi.';
 }

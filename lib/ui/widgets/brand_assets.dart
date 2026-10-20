@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-
 /// Wordmark "LENTERA" (di Figma berupa text-path vektor).
 ///
 /// Letakkan hasil ekspor Figma (node 2:55) di
@@ -19,10 +18,8 @@ class LenteraWordmark extends StatelessWidget {
       excludeFromSemantics: true,
       errorBuilder: (context, error, stack) => Text(
         'LENTERA',
-        style: Theme.of(context).textTheme.displaySmall?.copyWith(
-              fontSize: 48,
-              letterSpacing: 6,
-            ),
+        style: Theme.of(context).textTheme.displaySmall
+            ?.copyWith(fontSize: 48, letterSpacing: 6),
       ),
     );
   }
@@ -41,10 +38,8 @@ class GeminiIcon extends StatelessWidget {
       width: size,
       height: size,
       excludeFromSemantics: true,
-      errorBuilder: (context, error, stack) => CustomPaint(
-        size: Size.square(size),
-        painter: _SparklePainter(),
-      ),
+      errorBuilder: (context, error, stack) =>
+          CustomPaint(size: Size.square(size), painter: _SparklePainter()),
     );
   }
 }
@@ -94,4 +89,3 @@ class _SparklePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
-

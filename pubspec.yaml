@@ -13,7 +13,6 @@ dependencies:
   speech_to_text: ^7.3.0     # STT (Speech-to-Text)
   flutter_tts: ^4.2.3        # TTS (Text-to-Speech)
   geolocator: ^14.0.2        # lokasi perangkat
-  geocoding: ^4.0.0          # nama tempat dari koordinat
   permission_handler: ^12.0.1 # deteksi izin ditolak permanen + buka pengaturan
   http: ^1.5.0               # klien HTTPS (cuaca + proxy Gemini)
 

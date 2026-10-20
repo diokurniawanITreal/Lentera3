@@ -239,8 +239,6 @@ class LenteraController extends ChangeNotifier {
     _micPermanentlyDenied = false;
 
     _transcript = '';
-    _question = '';
-    _answer = '';
     _lastWords = '';
     _restarts = 0;
     final token = ++_listenToken;

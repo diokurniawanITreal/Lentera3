@@ -115,8 +115,16 @@ class BasicInfoService implements InfoAnswerer {
     }
     detail.write('.');
 
-    // Tambahan info cache
-    final cacheNote = w.isFromCache ? ' Data ini dari pembaruan terakhir.' : '';
+    // Tambahan info cache: sebutkan umur data agar pengguna tahu kebaruannya
+    // (NFR-07 Accuracy — pengguna tunanetra tidak dapat memeriksa sendiri).
+    String cacheNote = '';
+    if (w.isFromCache) {
+      final age = DateTime.now().difference(w.timestamp);
+      final ageText = age.inMinutes >= 60
+          ? 'sekitar ${(age.inMinutes / 60).ceil()} jam'
+          : 'sekitar ${age.inMinutes < 1 ? 1 : age.inMinutes} menit';
+      cacheNote = ' Data ini dari $ageText lalu.';
+    }
 
     if (rainQuestion) {
       return w.isRaining

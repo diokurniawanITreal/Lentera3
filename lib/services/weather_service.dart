@@ -177,8 +177,8 @@ abstract class WeatherProvider {
 class OpenMeteoService implements WeatherProvider {
   OpenMeteoService({
     http.Client Function()? clientFactory,
-    int maxRetries = 2,
-    Duration retryDelay = const Duration(seconds: 2),
+    int maxRetries = 1,
+    Duration retryDelay = const Duration(seconds: 1),
     Duration requestTimeout = const Duration(seconds: 10),
   })  : _factory = clientFactory ?? http.Client.new,
         _maxRetries = maxRetries,

@@ -13,7 +13,7 @@
 ///    ```bash
 ///    flutter run \
 ///      --dart-define=GEMINI_API_KEY=AIzaSy... \
-///      --dart-define=GEMINI_MODEL=gemini-1.5-flash
+///      --dart-define=GEMINI_MODEL=gemini-2.5-flash
 ///    ```
 class AppConfig {
   const AppConfig._();
@@ -37,10 +37,10 @@ class AppConfig {
   );
 
   /// Model Gemini yang digunakan saat koneksi langsung.
-  /// Default: 'gemini-1.5-flash' (cepat, stabil, hemat kuota).
+  /// Default: 'gemini-2.5-flash' (selaras dengan Cloudflare Worker).
   static const String geminiModel = String.fromEnvironment(
     'GEMINI_MODEL',
-    defaultValue: 'gemini-1.5-flash',
+    defaultValue: 'gemini-2.5-flash',
   );
 
   /// URL dasar Google Generative Language API untuk direct request.

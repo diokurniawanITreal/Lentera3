@@ -30,8 +30,13 @@ export default {
     const question = String(body?.question ?? '').trim();
     if (!question || question.length > 600) return json({ error: 'bad_request' }, 400);
 
-    const model = env.GEMINI_MODEL || 'gemini-2.5-flash'; // verifikasi model terkini
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+    // Coba model utama; bila tidak tersedia lagi (mis. dihentikan Google),
+    // jatuh otomatis ke model cadangan agar proxy tidak mati.
+    const models = [
+      env.GEMINI_MODEL || 'gemini-2.5-flash',
+      'gemini-2.5-flash-lite',
+      'gemini-2.0-flash',
+    ].filter((m, i, a) => a.indexOf(m) === i);
 
     const payload = {
       systemInstruction: { parts: [{ text: SYSTEM }] },
@@ -41,16 +46,27 @@ export default {
     // Grounding Google Search agar pertanyaan terkini (mis. pejabat) tidak usang.
     if (env.ENABLE_SEARCH !== 'false') payload.tools = [{ google_search: {} }];
 
-    let res;
-    try {
-      res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
-        body: JSON.stringify(payload),
-      });
-    } catch {
-      return json({ error: 'upstream' }, 502);
+    let res = null;
+    for (const model of models) {
+      const url =
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+      try {
+        res = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-goog-api-key': env.GEMINI_API_KEY,
+          },
+          body: JSON.stringify(payload),
+        });
+      } catch {
+        return json({ error: 'upstream' }, 502);
+      }
+      if (res.status === 404) continue; // model tidak tersedia → coba berikutnya
+      break;
     }
+
+    if (res === null) return json({ error: 'upstream' }, 502);
     if (res.status === 429) return json({ error: 'rate_limited' }, 429);
     if (!res.ok) return json({ error: 'upstream' }, 502);
 

@@ -224,10 +224,10 @@ class DeviceLocationService implements LocationProvider {
     // 3. Ambil posisi dengan timeout
     try {
       final position = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(
+        locationSettings: LocationSettings(
           accuracy: LocationAccuracy.high,
           distanceFilter: 0,
-          timeLimit: Duration(seconds: 15),
+          timeLimit: _gpsTimeout,
         ),
       ).timeout(_gpsTimeout);
 

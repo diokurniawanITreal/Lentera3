@@ -241,7 +241,7 @@ class GeminiProxyService implements AiService {
   /// Request langsung ke Google Gemini REST API (Google AI Studio)
   Future<String> _askDirectGemini(http.Client client, String question) async {
     final uri = Uri.parse(
-      '${AppConfig.geminiBaseUrl}/$_model:generateContent?key=$_apiKey',
+      '${AppConfig.geminiBaseUrl}/$_model:generateContent',
     );
     AppLog.d('AI', 'Mengirim pertanyaan direct ke Gemini ($_model)...');
 
@@ -265,7 +265,10 @@ class GeminiProxyService implements AiService {
     final res = await client
         .post(
           uri,
-          headers: {'Content-Type': 'application/json; charset=utf-8'},
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'x-goog-api-key': _apiKey,
+          },
           body: jsonEncode(payload),
         )
         .timeout(_timeout);
@@ -286,7 +289,7 @@ class GeminiProxyService implements AiService {
     }
 
     if (res.statusCode != 200) {
-      AppLog.d('AI', 'Gemini HTTP error: ${res.statusCode} - ${res.body}');
+      AppLog.d('AI', 'Gemini HTTP error: ${res.statusCode}');
       throw const AiException(AiFailure.server);
     }
 

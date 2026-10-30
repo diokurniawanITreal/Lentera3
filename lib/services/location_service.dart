@@ -239,8 +239,8 @@ class DeviceLocationService implements LocationProvider {
       );
 
       _cachedFix = fix;
-      AppLog.d('Location',
-          'GPS fix: ${fix.latitude.toStringAsFixed(5)}, ${fix.longitude.toStringAsFixed(5)} ± ${fix.accuracyMeters.round()}m');
+      AppLog.d(
+          'Location', 'GPS fix didapat, akurasi ± ${fix.accuracyMeters.round()}m');
       return fix;
     } on TimeoutException {
       // Timeout → coba ambil posisi terakhir yang diketahui platform
@@ -426,7 +426,7 @@ class DeviceLocationService implements LocationProvider {
         timestamp: DateTime.now(),
       );
 
-      AppLog.d('Location', 'Geocoded: ${place.toSpokenString()}');
+      AppLog.d('Location', 'Reverse geocode berhasil');
       return place;
     } finally {
       client.close();

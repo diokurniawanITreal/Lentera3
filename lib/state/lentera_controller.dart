@@ -19,7 +19,16 @@ enum HapticKind { listening, timeout, error }
 void _systemHaptics(HapticKind kind) {
   switch (kind) {
     case HapticKind.listening:
-      HapticFeedback.selectionClick();
+      // Getaran GANDA saat mikrofon mulai mendengarkan: dua ketukan pendek
+      // berjarak dekat sehingga pengguna tunanetra merasakan bahwa mic
+      // sudah aktif dan boleh berbicara. Pola ganda sengaja dibedakan dari
+      // sinyal lain (timeout = satu ketuk sedang, error = satu ketuk berat)
+      // agar tidak tertukar. Ketukan kedua tidak perlu dibatalkan walau
+      // sesi berganti — hanya getaran perangkat, tanpa efek ke sesi suara.
+      HapticFeedback.mediumImpact();
+      unawaited(Future<void>.delayed(const Duration(milliseconds: 150), () {
+        HapticFeedback.mediumImpact();
+      }));
     case HapticKind.timeout:
       HapticFeedback.mediumImpact();
     case HapticKind.error:
@@ -104,10 +113,15 @@ class LenteraController extends ChangeNotifier {
     await _listen(e);
   }
 
-  /// Sentuhan pada area layar.
+  /// Sentuhan pada area layar (termasuk ikon mikrofon di tengah).
   Future<void> onTap() async {
     if (!_started || _disposed) return;
     if (_status != VoiceStatus.idle) return; // abaikan saat aktif/berbicara
+    // Konfirmasi sentuhan SEGERA: getaran ganda memberi tahu bahwa mic
+    // akan aktif. Ditembakkan dulu (sebelum pengecekan izin/persiapan yang
+    // async) agar pengguna tunanetra merasakan getaran persis saat menekan,
+    // bukan sesudah jeda.
+    _haptics(HapticKind.listening);
     final e = await _begin();
     if (_micPermanentlyDenied) {
       await _say(e, Msg.openingSettings);
@@ -244,7 +258,6 @@ class LenteraController extends ChangeNotifier {
     final token = ++_listenToken;
     _deadlineAt = _clock().add(_listenWindow);
     _setStatus(VoiceStatus.listening);
-    _haptics(HapticKind.listening);
     _deadline?.cancel();
     _deadline = Timer(_listenWindow, () => _onTimeout(epoch, token));
     await _startRecognizer(epoch, token);
